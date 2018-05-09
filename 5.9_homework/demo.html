@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Image change</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        body{
+            font-size:0;
+        }
+        #box{
+            width:600px;
+            margin:40px auto;
+        }
+        #large{
+            width:600px;
+            height:auto!important
+        }
+        .small{
+            width:25%;
+            height:auto!important
+        }
+        #box div:nth-child(2),#box div:nth-child(3),#box div:nth-child(4),#box div:nth-child(5){
+            display:inline;
+            cursor:pointer;
+        }
+        #box div:nth-child(2):hover,#box div:nth-child(3):hover,#box div:nth-child(4):hover,#box div:nth-child(5):hover{
+            opacity:0.8;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div><img id="large" src="./1.jpg" alt="" ></div>
+        <div><img class="small" src="./1.jpg" alt="" onclick="ImgChange(this)"></div>        
+        <div><img class="small" src="./2.jpg" alt="" onclick="ImgChange(this)"></div>
+        <div><img class="small" src="./3.jpg" alt="" onclick="ImgChange(this)"></div>
+        <div><img class="small" src="./4.jpg" alt="" onclick="ImgChange(this)"></div>
+    </div>
+
+    <script>
+        function ImgChange(th){
+            large.src = th.src;
+        }
+    </script>
+</body>
+</html>
