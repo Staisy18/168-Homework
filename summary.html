@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Summary of lesson</title>
+</head>
+
+<body>
+
+    <div id="box">  <!--先创建个div并给个id，id在js中就代表该对象并具有其所有属性-->
+        Hello World!
+    </div>
+
+
+
+    <script>
+        // 对象的创建与this
+        function Tool(name, use) {  //对象是通过构造函数产生，要创建对象首先得有模板（即构造函数）
+            this.name = name;
+            this.use = use;
+            this.fun = function (txt) {
+                return txt;
+            }
+            console.log(this.name)
+        }
+        var tool = new Tool('brush', 'decoration');
+        //创建对象时，用new来实现，之后对象便会具有构造函数所有的属性和方法；
+        console.log(tool.fun('painting'));//即使对象内部包含的是函数，也依然可以当成是本身的属性一样调用，跟函数一样可以传参；
+        // 关于this，通常情况下都指向当前调用该函数的对象；但当this存在包含关系时或者在未定义的全局环境中，会默认指向window；
+        // console.log(this.fun('cutting')); //由于这个this并非在函数内部定义，所以是不可以调用函数内部的任何属性或者函数的；该this指向window;
+        console.log(this);//Window
+
+
+        function Person() {
+            this.uername = 'rose'
+            this.age = '23'
+            this.say = function () {
+                return 'my name is' + this.username
+            }
+        }
+        // Object
+        var p1 = new Person();
+        /*
+        p1为Person这个构造函数new出来的对象，其数据类型会与构造函数的类型保持一致；
+        而构造函数本身就是由内置函数Funtion构造的对象，所以构造函数本身就是Object;
+        */
+        console.log(p1 instanceof Object);
+        //instanceof属性是查看是否是某个数据类型的实例（实例其实就是通过构造函数创造的对象）
+
+
+        //赋值方式(值赋值、引用赋值)
+        var num1 = 123,
+            num2 = num1
+        console.log(num1)//123
+        console.log(num2)//123
+        num2 = 456
+        console.log(num1)//123
+        console.log(num2)//456
+        /*
+        对变量赋予具体的值，其实是相当于将num1的值复制一份给num2;
+        这样各自就拥有了完全相同的值，之后再对各自的值进行改变时，不会相互影响；
+        这种赋值被称为值复制（值赋值）
+        */
+        var obj1 = { a: 1 },
+            obj2 = obj1
+        console.log(obj1)
+        console.log(obj2)//创建对象obj1,并赋值给obj2;输出结果为相同的对象{a:1} 
+
+        obj2.a = 3 //改变obj2的a的属性值，输出的obj1对象也发生了同样的改变；
+        console.log(obj1)
+        console.log(obj2)
+        /*
+        对象赋值与对具体变量赋值的不同之处在于，对象名的地址的复制是相同的，都存在于栈内存中；而具体的对象（区块）
+        是被cpu分存进堆内存当中的，调用的时候是由栈内存的对应指针来查找的。即obj1和obj2共享一个对象，所以其中一方
+        对其做修改，另一方输出的结果必然也是相同的；这种赋值方式叫做引用赋值
+        */
+
+
+        // prototype原型对象
+        var Student = function (uname, age) {
+            this.uname = uname
+            this.age = age
+        }
+        Student.prototype = {
+            grade: 'high',
+            say: function () {
+                return 'hello'
+            }
+        }
+        var p1 = new Student('amy', 15)
+        var p2 = new Student('tao', 16)
+        /*
+        prototype是原型属性，也是对象，只有构造函数才有。通过构造函数new的对象可以继承prototype中的属性，
+        对象如果要调用prototype中的属性，可以通过__proto__属性访问到；在实际应用中，由于兼容性等问题通常不
+        写这个属性，对象也依然可以通过隐藏的原型链自动索引；同一构造函数new的对象如果要添加共有的属性，可以
+        都写进prototype中以减少所占空间;
+        */
+        console.log(Student.prototype)//输出的是Student.prototype后面的区块，即对象
+        console.log(p1.__proto__.say())//hello
+        console.log(p1.say()) //hello
+        console.log(p2.grade)//high
+        console.log(p1.grade)//high
+        console.log(p1.__proto__ === p2.__proto__) //true,p1,p2的__proto__指向的地址相同
+        console.log(p1.__proto__ === Student.prototype)
+
+        p2.__proto__.grade = 'small' //改变堆内存中的数据，由于p1,p2地址相同，所以p1 p2的grade都变为small
+        console.log(p1.grade)
+        console.log(p2.grade)
+
+
+        // 给对象定义方法
+        var obj = {
+            say: function () {
+                console.log(this) //Object say:f()
+                var speak = function () {
+                    console.log(this) //window
+                }
+                speak()
+            }
+        }
+        // 输出的两个this指代的对象不同，下面的因为只是执行的下面的代码，指向全局对象，所以输出window
+
+
+
+        // this 的指向
+        var obj3 = {
+            uname: 'jack',
+            say: function () {
+                console.log(this.uname)
+            }
+        }
+        function fun(x, y) {
+            console.log(this.uname + x + y)
+
+        }
+
+        var foo = obj3.say.bind(obj3) 
+        foo() //jack
+        // fun()
+        // fun.call(obj,'hello','hi')  用call是this指向obj  'hello'和'hi'是对应传参 第一个值必须传,而且要是对象,可以传{}
+        // fun.apply(obj,['hello','hi']) apply和call方法一样,但是必须传数组
+
+        // var arr=[1,2,3,4,5]
+        // console.log(Math.max.apply(null,arr))
+        // fun.bind(obj)  用bind是this和obj绑定
+
+
+
+        // 用this实现连续化操作（加减法等运算）
+        function Foo() {
+            this.result = 0//设置默认值为0
+        }
+        
+        //加法
+        Foo.prototype.add = function (x, y) {
+            this.result += x
+            return this//返回this,使其为对象,可以连续化操作
+        }
+
+        //减法
+        Foo.prototype.sub = function (x) {
+            this.result -= x
+            return this//返回this使其成为对象可以连续化操作
+        }
+
+        // 乘法
+        Foo.prototype.multi = function(m){
+            this.result *= m
+            return this;
+        }
+ 
+        var foo = new Foo() //创建新对象
+        // foo.add(1, 2)
+        // foo.sub(4)
+        var res = foo.add(1).sub(4).add(100).multi(2).result //定义res为计算结果,result之前的部分可以当成是个整体对象this
+        // console.log(foo.result)
+        console.log(res)//输出res
+
+
+
+
+        //回调函数
+
+        var arr1 = ['a', 'b', 'c']//建立数组
+
+        function mapArr(arr, cb) {  //arr表示数组,cb表示函数
+            console.log(arr)
+            for (var i = 0; i < arr.length; i++) {
+                cb(arr[i]) //等同于function(arr[i]){console.log(arr[i])}
+                //遍历数组循环
+            }
+        }
+        mapArr([1, 2, 3, 4, 5, 6,], function (item) {      //数组和function都作为值传参
+            console.log(item)
+        })//遍历数组函数
+
+
+        // var fun1=function(){
+        //     console.log('hello fun1')
+        // }
+
+        // function run(cb){
+        //     cb() 函数传参 回调函数
+
+        // }
+        // run(fun1)
+
+
+
+        // js控制css
+        // box.style['color']='red';
+        function Style(id){
+            this.el = document.getElementById(id) //获取id，this.el等于一个对象
+        }
+        Style.prototype.css = function(attr,value){
+            this.el.style[attr]=value
+            return this //返回一个对象,使其可以连续化操作
+        }
+        var style = new Style('box')//实例化
+        style.css('color','green').css('border','5px solid blue')//设置css属性
+        // console.log(style.el)
+    </script>
+</body>
+
+</html>
