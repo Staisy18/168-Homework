@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script src="./tool.js"></script>
+    <script>
+        var A = [1,2,3,6,8,9]
+        var res = A.some(function(el){
+            return el>3;
+        })
+        console.log(res);//true
+       console.log( _.judgeArrMem(A,'>3'));//true
+
+       var res2 = A.every(function(el){
+           return el>3;
+       })
+       console.log(res2);//false
+       console.log(_.judgeArr(A,'>3'));//undefined(错误)
+
+       var B = [3,4,5,6,7,8]
+       var add = B.reduce(function(a,b){
+           return a+b;
+       })
+       var sub = B.reduce(function(a,b){
+           return a-b;
+       })
+       console.log(add);//33
+       console.log(_.addArr(B,0));//33
+       console.log(sub);//-27
+       console.log(_.substractArr(B));//-33(bug)
+
+       var add1 = B.reduceRight(function(a,b){
+           return a+b;
+       })
+       console.log(add1);//33
+       console.log(_.addArr(B,0));//33
+
+    </script>
+</body>
+</html>
