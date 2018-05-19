@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>shopping cart</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_672214_dkrnw6kz8ecgcik9.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #list {
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.5);
+            margin-top: 80px;
+            padding: 20px;
+            background: rgba(147, 200, 231, 0.685);
+        }
+
+        #list>li {
+            float: left;
+            width: 200px;
+            height: 300px;
+            margin: 5px;
+            box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+            background:white;
+        }
+
+        #cart {
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            padding-left: 20px;
+            display:none;
+            height:40px;
+        }
+
+        #cart>li {
+            line-height: 40px;
+            margin: 10px;
+            box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+        }
+        #cart #reminder{
+            height:60px;
+            line-height:60px;
+            box-shadow:none;
+            margin:0;
+            font-size:20px;
+            text-indent: 2rem;
+            color:rgb(192, 118, 27);
+        }
+
+        #icon {
+            width: 100px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            position: relative;
+            top: 30px;
+            left: 1245px;
+            background: rgba(143, 124, 124, 0.4);
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #icon:hover {
+            color: red;
+        }
+        #count{
+            border:1px solid red;
+            height:20px;
+            width:20px;
+            margin-left:10px;
+            border-radius:50%;
+            font-size:14px;
+            color:brown;
+            line-height:20px;
+            text-align:center;
+            display:none;
+        }
+        img{
+            margin:15px;
+            cursor:pointer;
+        }
+        img:hover{
+            opacity:0.8;
+            filter:alpha(opacity=80);
+        }
+        li>span{
+            padding:15px;
+            width:180px;
+            height:60px;
+            display:block;
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow: ellipsis;
+            font-size:13px;
+        }
+        li>span:hover{
+            color:red;
+            cursor:pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="icon" class="iconfont icon-Cart" style="font-size:30px;"><span id="count"></span></div>
+    <ul id="list">
+        <li draggable="true"><img src="1.webp" alt="" draggable="false"><br><span>&nbsp;&nbsp;&nbsp;修正身体乳凡士林去鸡皮肤毛囊角质疙瘩毛周角化保湿滋润肤色...</span></li>
+        <li draggable="true"><img src="2.webp" alt=""><br><span>&nbsp;&nbsp;&nbsp;瑞士军刀威戈Wenger双肩包商务笔记本电脑包14.4英寸 时尚休闲双肩背包男女书包防泼水 黑色SGB10516109044</span></li>
+        <li draggable="true"><img src="3.webp" alt=""><br><span>&nbsp;&nbsp;&nbsp;域途（YUTU）男靴马丁靴英伦复古工装鞋秋冬靴子男军靴中高帮皮鞋真皮加绒保暖短靴 卡其 四季款 41 标准皮鞋码</span></li>
+        <li draggable="true"><img src="4.webp" alt=""><br><span>&nbsp;&nbsp;&nbsp;比得兔（Peter Rabbit）晶透无铅玻璃保鲜盒 耐热微波炉便当饭盒四件套 赠包 （640ML*2+620ML*2） PR-T554</span></li>
+        <li draggable="true"><img src="5.webp" alt=""><br><span>&nbsp;&nbsp;&nbsp;COMFAST CF-WU815N免驱版 迷你USB无线网卡 台式机智能自动安装WiFi接收器发射器</span></li>
+    </ul>
+    <ul id="cart">
+        <li id="reminder" draggable="false">拖拽商品至购物车~</li>
+    </ul>
+    <script>
+        var dragged;
+        cart = document.getElementById('cart'),
+        reminder = document.getElementById('reminder'),
+        icon = document.getElementById('icon');
+        icon.addEventListener('click',function(){
+            if(cart.style.display=="block"){
+                cart.style.display = 'none';
+            }else{
+                cart.style.display = 'block';
+            }    
+        },false)
+        document.addEventListener('dragstart', function (e) {
+            dragged = e.target;
+            dragged.style.background = 'rgba(0,0,0,0.5)';
+            if (e.target.className != 'done') {
+                cart.style.height = "400px";
+            }
+        }, false)
+        document.addEventListener('dragend', function (e) {
+            dragged.style.background = '';
+            cart.style.height = " ";
+        }, false)
+        document.addEventListener('dragenter', function (e) {
+            if (e.target.id == 'cart' && dragged.className != 'done') {
+                e.target.style.background = 'rgba(0,0,0,0.3)';
+            }
+        }, false)
+        document.addEventListener('dragleave', function (e) {
+            e.target.background = '';
+        }, false)
+        document.addEventListener('dragover', function (e) {
+            e.preventDefault();
+        }, false)
+        document.addEventListener('drop', function (e) {
+            e.preventDefault();
+            if (e.target.id == "cart" && dragged.className != 'done') {
+                e.target.style.background = '';
+                var cloneNode = dragged.cloneNode(true);
+                    plus = document.createElement('span'),
+                    txt = document.createTextNode('  X'),
+                    qty = document.createElement('span');
+                    count = document.getElementById('count');
+                    img = document.getElementsByTagName('img');
+                    i = 1;
+                    countNum = 0;
+                    plus.appendChild(txt);
+                    cloneNode.appendChild(plus);
+                    cloneNode.appendChild(qty);
+                    qty.innerHTML = i;
+                cloneNode.classList.add('done');
+                e.target.appendChild(cloneNode);
+                if(e.target.appendChild(cloneNode)){
+                    reminder.style.display = 'none';
+                    countNum = (cart.children.length)-1;
+                    console.log(cloneNode)
+                    console.log(cloneNode.childNodes)
+                    var nodelis = cloneNode.childNodes;
+                    count.innerHTML = countNum;
+                    count.style.display = 'inline-block';
+                    nodelis[0].style.width = '40px';
+                    nodelis[1].remove();
+                    nodelis[1].style.display = 'inline'
+                    nodelis[2].style.display = 'inline'
+                    nodelis[3].style.display = 'inline'
+                }
+                cloneNode.style.background = "";
+            } else {
+                dragged.remove();
+            }
+        }, false)
+    </script>
+</body>
+
+</html>
