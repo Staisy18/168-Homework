@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <p>hello</p>
+        <span>no pains no gains</span><br>
+        <span>try harder</span><br>
+        <b>spare no effort to make it!</b>
+    </div>
+    <div>
+        <span>jack</span>
+        <p>having lessons</p>
+    </div>
+
+    <ul class="list">
+        <li class="l1">l1</li>
+        <li id="l2">l2</li>
+        <li class="l1">l3</li>
+        <p>hello world</p>
+        <li>l4</li>
+        <p>hardworking</p>
+    </ul>
+    <div>
+        <p>happiness</p>
+    </div>
+    <form action="">
+        <input type="text" name="username">姓名
+        <input type="button" value="提交">
+    </form>
+    <script src="jquery-3.3.1.min.js"></script>
+    <script>
+        //子元素过滤
+        $('div span:first-child').css('color','red')//jack变红，为div的第一个子元素并且是span标签
+        $('div b:last-child').css('color','green')//选定父元素中最后一个子元素
+
+        $('span:first-of-type').addClass('show')/*no pains...& jack添加了属性show，二者父元素相同并且都是出现的第一个span子元素*/
+        $('span:last-of-type').css('color','grey')//相同父元素的最后一个span子元素
+
+        $('div p:nth-child(1)').css('text-decoration','underline')//父元素下的第一个子元素
+        $('div p:nth-last-child(1)').css('color','yellow')//从倒数开始的第一个子元素
+        $('ul li:nth-last-of-type(2)').append('<p>hello</p>')//从倒数开始的第二个元素，参数可以为多种
+        $('ul li:nth-last-of-type(odd)').css('color','red')
+
+        $('div p:only-child').css('color','purple')//父元素只有唯一一个子元素
+        $('p:only-of-type').append(' alone')// 没有兄弟元素，且具有相同的元素名称的元素
+        
+
+        //层级过滤
+        $('.list>.l1').css('border','1px solid purple')//与css中的子元素选择器一致
+        $('form input').css('background','green')//选中父元素中的所有子元素，与css中的级联选择器相同
+        $('#l2+li').css('text-decoration','line-through')//向下选择同级的临近的元素（只找一个邻居）
+        $('#l2~p').css('border','2px solid black')//向下选择同级的紧随其后的所有指定元素（找整个小区满足条件的邻居）
+    </script>
+</body>
+</html>
